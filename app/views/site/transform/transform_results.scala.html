@@ -1,0 +1,39 @@
+@import iuj.sc.demo.actor.image.TransformerSupervisor.TransformCompleted
+@import iuj.sc.demo.actor.image.TransformerSupervisor.TransformSuccess
+@import iuj.sc.demo.actor.image.TransformerSupervisor.TransformFailure
+@import iuj.sc.demo.actor.image.TransformerWorker.Success
+@import iuj.sc.demo.actor.image.TransformerWorker.Failure
+
+@(results: TransformCompleted)
+
+@main("Images transformation response") {
+    <div class="global-style">
+        <h2>@results.status</h2>
+        @for(result <- results.results) {
+            @result match {
+                case success: TransformSuccess => {
+                    <br/>
+                    <div>
+                        <b>@success.fileName</b>
+                        @for(subResult <- success.results) {
+                            @subResult match {
+                                case ok: Success => {
+                                    <p class="success"><b>@ok.size</b> @ok.uri</p>
+                                }
+                                case error: Failure => {
+                                    <p class="failure"><b>@error.size</b> @error.reason</p>
+                                }
+                            }
+                        }
+                    </div>
+                }
+                case failure: TransformFailure => {
+                    <div>
+                        <b>@failure.fileName</b>
+                        <p>@failure.reason</p>
+                    </div>
+                }
+            }
+        }
+    </div>
+}

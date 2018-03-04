@@ -1,0 +1,11 @@
+.success {
+    color: limegreen;
+}
+
+.failure {
+    color: red;
+}
+
+.global-style {
+    font-family: sans-serif;
+}
